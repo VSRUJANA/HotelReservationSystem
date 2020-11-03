@@ -137,6 +137,25 @@ namespace Hotel_Reservation_System
             return cheapestHotels.FindAll(hotel => hotel.rating == maxRating);
         }
 
+        // Method to find Best rated hotel for given date range
+        public List<Hotel> FindBestRatedHotel(DateTime start, DateTime end)
+        {
+            end = HandleInvalidDateRange(start, end);
+            TimeSpan timeSpan = end.Subtract(start);
+            int numberOfDays = (int)timeSpan.TotalDays + 1;
+            int weekDays = GetWeekdaysInDateRange(start, end);
+            int weekEndDays = numberOfDays - weekDays;
+            int maxRating = hotels.Max(hotel => hotel.rating);
+            var bestRatedHotels = hotels.FindAll(hotel => hotel.rating == maxRating);
+            Console.WriteLine("\nBest rated Hotels available for the given date range : ");
+            foreach (Hotel hotel in bestRatedHotels)
+            {
+                double totalBill = (weekDays * hotel.weekDayRegularRate) + (weekEndDays * hotel.weekEndRegularRate);
+                Console.WriteLine("Hotel '" + hotel.name + "' and Total Rate  : $ " + totalBill);
+            }
+            return bestRatedHotels;
+        }
+
         // Method to display available cheapest hotel
         public void DisplayCheapestHotel(List<Hotel> cheapHotels)
         {

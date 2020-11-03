@@ -24,10 +24,8 @@ namespace Hotel_Reservation_System
             Console.Write("\x1b[1mEnter Check out date in ddMonyyyy format : \x1b[0m");
             DateTime checkOutDate = hotelManager.ValidateDate(Console.ReadLine());
 
-            // Find cheapest Hotel for a given Date Range
-            var cheapestBestRatedHotel = hotelManager.FindCheapestBestRatedHotel(checkInDate, checkOutDate);
-            Console.WriteLine("\nCheapest Best rated Hotel available for the given date range :");
-            hotelManager.DisplayCheapestHotel(cheapestBestRatedHotel);
+            // Find Best rated Hotel for a given Date Range
+            hotelManager.FindBestRatedHotel(checkInDate, checkOutDate);
         }
     }
 }
