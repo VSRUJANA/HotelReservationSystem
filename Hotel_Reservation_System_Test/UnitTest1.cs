@@ -15,9 +15,9 @@ namespace Hotel_Reservation_System_Test
             ManageHotels hotelManager = new ManageHotels();
             int expected = 3;
 
-            hotelManager.AddHotel(new Hotel("Lakewood", 110,90));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 220,150));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110,90,3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60,4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 220,150,5));
             int actual = hotelManager.hotels.Count();
 
             Assert.AreEqual(expected, actual);
@@ -44,9 +44,9 @@ namespace Hotel_Reservation_System_Test
             string expected = "Lakewood";
 
             ManageHotels hotelManager = new ManageHotels();
-            hotelManager.AddHotel(new Hotel("Lakewood", 110,90));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 220,150));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110,90,3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60,4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 220,150,5));
             List<Hotel> cheapestHotels = hotelManager.FindCheapestHotelInAGivenDateRange(start, end);
 
             Assert.AreEqual(expected, cheapestHotels[0].name);
@@ -60,9 +60,9 @@ namespace Hotel_Reservation_System_Test
             string[] expected = { "Lakewood", "Ridgewood" };
 
             ManageHotels hotelManager = new ManageHotels();
-            hotelManager.AddHotel(new Hotel("Lakewood", 110,90));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 110,90));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110,90,3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60,4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 110,90,5));
             List<Hotel> cheapestHotelsList = hotelManager.FindCheapestHotelInAGivenDateRange(start, end);
             string[] cheapestHotelsArray = cheapestHotelsList.Select(hotel => hotel.name).ToArray();
 
