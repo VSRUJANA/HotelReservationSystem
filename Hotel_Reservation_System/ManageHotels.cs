@@ -26,10 +26,11 @@ namespace Hotel_Reservation_System
         public void Display()
         {
             Console.WriteLine("Hotels in Miami:");
-            Console.WriteLine("HotelName" + "\t" + "WeekDayRegularRate" + "\t" + "WeekEndRegularRate" + "\t" + "Rating");
+            Console.WriteLine("HotelName" + "\t" + "WeekDayRegularRate" + "\t" + "WeekEndRegularRate" + "\t" + "WeekDayRewardRate" + "\t" + "WeekEndRewardRate" + "\t" + "Rating");
             foreach (var hotel in hotels)
             {
-                Console.WriteLine(hotel.name + "\t  $ " + hotel.weekDayRegularRate + "\t\t\t  $ " + hotel.weekEndRegularRate + "\t\t\t  " + hotel.rating);
+                Console.Write(hotel.name + "\t  $ " + hotel.regularWeekDayRate + "\t\t\t $ " + hotel.regularWeekEndRate);
+                Console.Write("\t\t\t $ " + hotel.rewardWeekDayRate + "\t\t\t  $ " + hotel.rewardWeekEndRate + "\t\t\t  $ " + hotel.rating + "\n");
             }
         }
 
@@ -112,7 +113,7 @@ namespace Hotel_Reservation_System
         // Method to find Cheapest rate based on Regular week day and week end rates
         public double CheapestRegularRate(int weekDays, int weekEndDays)
         {
-            double cheapestRegularRate = hotels.Min(hotel => (weekDays * hotel.weekDayRegularRate) + (weekEndDays * hotel.weekEndRegularRate));
+            double cheapestRegularRate = hotels.Min(hotel => (weekDays * hotel.regularWeekDayRate) + (weekEndDays * hotel.regularWeekEndRate));
             return cheapestRegularRate;
         }
 
@@ -125,7 +126,7 @@ namespace Hotel_Reservation_System
             int weekDays = GetWeekdaysInDateRange(start, end);
             int weekEndDays = numberOfDays - weekDays;
             cheapestRate = CheapestRegularRate(weekDays, weekEndDays);
-            var cheapestAvailableHotels = hotels.Where(hotel => (weekDays * hotel.weekDayRegularRate) + (weekEndDays * hotel.weekEndRegularRate) == cheapestRate).ToList();
+            var cheapestAvailableHotels = hotels.Where(hotel => (weekDays * hotel.regularWeekDayRate) + (weekEndDays * hotel.regularWeekEndRate) == cheapestRate).ToList();
             return cheapestAvailableHotels;
         }
 
