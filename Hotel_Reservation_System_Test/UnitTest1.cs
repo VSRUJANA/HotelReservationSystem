@@ -69,7 +69,6 @@ namespace Hotel_Reservation_System_Test
             CollectionAssert.AreEqual(expected, cheapestHotelsArray);
         }
 
-
         [TestMethod]
         public void GivenDateRange_FindBestRatedCheapestHotelMethod_ShouldReturnBestRatedCheapestHotel()
         {
@@ -100,6 +99,39 @@ namespace Hotel_Reservation_System_Test
             List<Hotel> cheapestHotelsList = hotelManager.FindCheapestBestRatedHotel(start, end);
 
             Assert.AreEqual(expected, cheapestHotelsList[0].name);
+        }
+
+        [TestMethod]
+        public void GivenDateRange_FindBestRatedHotelMethod_ShouldReturnBestRatedHotel()
+        {
+            DateTime start = DateTime.Parse("12Nov2020");
+            DateTime end = DateTime.Parse("14Nov2020");
+            string expected = "Ridgewood";
+
+            ManageHotels hotelManager = new ManageHotels();
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 220, 150, 5));
+            List<Hotel> cheapestHotelsList = hotelManager.FindBestRatedHotel(start, end);
+
+            Assert.AreEqual(expected, cheapestHotelsList[0].name);
+        }
+
+        [TestMethod]
+        public void GivenDateRange_FindBestRatedHotelMethod_ShouldReturnAllBestRatedHotels()
+        {
+            DateTime start = DateTime.Parse("12Nov2020");
+            DateTime end = DateTime.Parse("14Nov2020");
+            string[] expected = { "Lakewood", "Ridgewood" };
+
+            ManageHotels hotelManager = new ManageHotels();
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 5));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 110, 90, 5));
+            List<Hotel> bestHotelsList = hotelManager.FindCheapestBestRatedHotel(start, end);
+            string[] bestHotelsArray = bestHotelsList.Select(hotel => hotel.name).ToArray();
+
+            CollectionAssert.AreEqual(expected, bestHotelsArray);
         }
     }
 }
