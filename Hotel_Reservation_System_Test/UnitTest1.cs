@@ -15,9 +15,9 @@ namespace Hotel_Reservation_System_Test
             ManageHotels hotelManager = new ManageHotels();
             int expected = 3;
 
-            hotelManager.AddHotel(new Hotel("Lakewood", 110,90,3));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60,4));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 220,150,5));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 80, 80, 3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 110, 150, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 220, 150, 100, 40, 5));
             int actual = hotelManager.hotels.Count();
 
             Assert.AreEqual(expected, actual);
@@ -28,7 +28,7 @@ namespace Hotel_Reservation_System_Test
         {
             DateTime start = DateTime.Parse("17Nov2020");
             DateTime end = DateTime.Parse("12Nov2020");
-            bool expected = false; 
+            bool expected = false;
 
             ManageHotels hotelManager = new ManageHotels();
             bool result = hotelManager.IsDateRangeValid(start, end);
@@ -44,9 +44,9 @@ namespace Hotel_Reservation_System_Test
             string expected = "Lakewood";
 
             ManageHotels hotelManager = new ManageHotels();
-            hotelManager.AddHotel(new Hotel("Lakewood", 110,90,3));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60,4));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 220,150,5));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 80, 80, 3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 110, 150, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 220, 150, 100, 40, 5));
             List<Hotel> cheapestHotels = hotelManager.FindCheapestHotelInAGivenDateRange(start, end);
 
             Assert.AreEqual(expected, cheapestHotels[0].name);
@@ -60,9 +60,9 @@ namespace Hotel_Reservation_System_Test
             string[] expected = { "Lakewood", "Ridgewood" };
 
             ManageHotels hotelManager = new ManageHotels();
-            hotelManager.AddHotel(new Hotel("Lakewood", 110,90,3));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160,60,4));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 110,90,5));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 80, 80, 3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 110, 150, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 110, 90, 100, 40, 5));
             List<Hotel> cheapestHotelsList = hotelManager.FindCheapestHotelInAGivenDateRange(start, end);
             string[] cheapestHotelsArray = cheapestHotelsList.Select(hotel => hotel.name).ToArray();
 
@@ -77,9 +77,9 @@ namespace Hotel_Reservation_System_Test
             string expected = "Lakewood";
 
             ManageHotels hotelManager = new ManageHotels();
-            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 3));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 4));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 220, 150, 5));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 80, 80, 3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 110, 150, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 220, 150, 100, 40, 5));
             List<Hotel> cheapestHotelsList = hotelManager.FindCheapestBestRatedHotel(start, end);
 
             Assert.AreEqual(expected, cheapestHotelsList[0].name);
@@ -93,9 +93,9 @@ namespace Hotel_Reservation_System_Test
             string expected = "Ridgewood";
 
             ManageHotels hotelManager = new ManageHotels();
-            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 3));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 4));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 110, 90, 5));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 80, 80, 3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 110, 150, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 110, 90, 100, 40, 5));
             List<Hotel> cheapestHotelsList = hotelManager.FindCheapestBestRatedHotel(start, end);
 
             Assert.AreEqual(expected, cheapestHotelsList[0].name);
@@ -109,9 +109,9 @@ namespace Hotel_Reservation_System_Test
             string expected = "Ridgewood";
 
             ManageHotels hotelManager = new ManageHotels();
-            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 3));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 4));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 220, 150, 5));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 80, 80, 3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 110, 150, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 220, 150, 100, 40, 5));
             List<Hotel> cheapestHotelsList = hotelManager.FindBestRatedHotel(start, end);
 
             Assert.AreEqual(expected, cheapestHotelsList[0].name);
@@ -122,12 +122,12 @@ namespace Hotel_Reservation_System_Test
         {
             DateTime start = DateTime.Parse("12Nov2020");
             DateTime end = DateTime.Parse("14Nov2020");
-            string[] expected = { "Lakewood", "Ridgewood" };
+            string[] expected = {"Ridgewood" };
 
             ManageHotels hotelManager = new ManageHotels();
-            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 5));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 4));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 110, 90, 5));
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90, 80, 80, 3));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60, 110, 150, 4));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 110, 90, 100, 40, 5));
             List<Hotel> bestHotelsList = hotelManager.FindCheapestBestRatedHotel(start, end);
             string[] bestHotelsArray = bestHotelsList.Select(hotel => hotel.name).ToArray();
 
