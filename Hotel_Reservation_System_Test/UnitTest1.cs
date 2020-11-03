@@ -62,7 +62,7 @@ namespace Hotel_Reservation_System_Test
             ManageHotels hotelManager = new ManageHotels();
             hotelManager.AddHotel(new Hotel("Lakewood", 110,90));
             hotelManager.AddHotel(new Hotel("Bridgewood", 160,60));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 110,150));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 110,90));
             List<Hotel> cheapestHotelsList = hotelManager.FindCheapestHotelInAGivenDateRange(start, end);
             string[] cheapestHotelsArray = cheapestHotelsList.Select(hotel => hotel.name).ToArray();
 
