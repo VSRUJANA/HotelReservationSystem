@@ -14,6 +14,7 @@ namespace Hotel_Reservation_System
     {
         // hotels contains the list of hotels 
         public List<Hotel> hotels = new List<Hotel>();
+        public static double cheapestRate = 0;
 
         // Method to add new hotel 
         public void AddHotel(Hotel newHotel)
@@ -123,14 +124,26 @@ namespace Hotel_Reservation_System
             int numberOfDays = (int)timeSpan.TotalDays + 1;
             int weekDays = GetWeekdaysInDateRange(start, end);
             int weekEndDays = numberOfDays - weekDays;
-            double cheapestRate = CheapestRegularRate(weekDays, weekEndDays);
+            cheapestRate = CheapestRegularRate(weekDays, weekEndDays);
             var cheapestAvailableHotels = hotels.Where(hotel => (weekDays * hotel.weekDayRegularRate) + (weekEndDays * hotel.weekEndRegularRate) == cheapestRate).ToList();
-            Console.WriteLine("\nCheapest Hotel available for the given date range :");
-            foreach (Hotel hotel in cheapestAvailableHotels)
+            return cheapestAvailableHotels;
+        }
+
+        // Method to find Cheapest Best rated hotels based on Regular customer rates for given date range
+        public List<Hotel> FindCheapestBestRatedHotel(DateTime start, DateTime end)
+        {
+            List<Hotel> cheapestHotels = FindCheapestHotelInAGivenDateRange(start, end);
+            int maxRating = cheapestHotels.Max(hotel => hotel.rating);
+            return cheapestHotels.FindAll(hotel => hotel.rating == maxRating);
+        }
+
+        // Method to display available cheapest hotel
+        public void DisplayCheapestHotel(List<Hotel> cheapHotels)
+        {
+            foreach (Hotel hotel in cheapHotels)
             {
                 Console.WriteLine("Hotel '" + hotel.name + "' and Total Rate  : $ " + cheapestRate);
             }
-            return cheapestAvailableHotels;
         }
     }
 }
