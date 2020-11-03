@@ -25,10 +25,10 @@ namespace Hotel_Reservation_System
         public void Display()
         {
             Console.WriteLine("Hotels in Miami:");
-            Console.WriteLine("HotelName" + "\t" + "RegularRate");
+            Console.WriteLine("HotelName" + "\t" + "WeekDayRegularRate" + "\t" + "WeekEndRegularRate");
             foreach (var hotel in hotels)
             {
-                Console.WriteLine(hotel.name + "\t$ " + hotel.regularRate);
+                Console.WriteLine(hotel.name + "\t$ " + hotel.weekDayRegularRate + "\t\t\t$ " + hotel.weekEndRegularRate);
             }
         }
 
@@ -97,8 +97,8 @@ namespace Hotel_Reservation_System
             end=HandleInvalidDateRange(start, end);
             TimeSpan timeSpan = end.Subtract(start);
             double numberOfDays = timeSpan.TotalDays;
-            double cheapestRegularRate = hotels.Min(hotel => hotel.regularRate);
-            var cheapestAvailableHotels = hotels.Where(hotel => hotel.regularRate == cheapestRegularRate).ToList();
+            double cheapestRegularRate = hotels.Min(hotel => hotel.weekDayRegularRate);
+            var cheapestAvailableHotels = hotels.Where(hotel => hotel.weekDayRegularRate == cheapestRegularRate).ToList();
             double TotalBill = numberOfDays * cheapestRegularRate;
             Console.WriteLine("\nCheapest Hotel available for the given date range :");
             foreach (Hotel hotel in cheapestAvailableHotels)

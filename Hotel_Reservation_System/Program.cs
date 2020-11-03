@@ -12,10 +12,15 @@ namespace Hotel_Reservation_System
             ManageHotels hotelManager = new ManageHotels();
 
             // Add hotels to Reservation system
-            hotelManager.AddHotel(new Hotel("Lakewood", 110));
-            hotelManager.AddHotel(new Hotel("Bridgewood", 160));
-            hotelManager.AddHotel(new Hotel("Ridgewood", 220));
+            // Add hotels to Reservation system
+            hotelManager.AddHotel(new Hotel("Lakewood", 110, 90));
+            hotelManager.AddHotel(new Hotel("Bridgewood", 160, 60));
+            hotelManager.AddHotel(new Hotel("Ridgewood", 220, 150));
 
+            // Display available hotels
+            hotelManager.Display();
+
+            /*
             // Enter Check in and Check out dates
             Console.Write("\x1b[1mEnter Check in date in ddMonyyyy format  : \x1b[0m");
             DateTime checkInDate = hotelManager.ValidateDate(Console.ReadLine());
@@ -25,6 +30,7 @@ namespace Hotel_Reservation_System
 
             // Find cheapest Hotel for a given Date Range
             hotelManager.FindCheapestHotelInAGivenDateRange(checkInDate, checkOutDate);
+            */
         }
     }
 }

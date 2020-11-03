@@ -11,13 +11,15 @@ namespace Hotel_Reservation_System
     {
         // Data members of the class
         public String name;
-        public int regularRate;
+        public int weekDayRegularRate;
+        public int weekEndRegularRate;
 
         // Parameterised Constructor
-        public Hotel(string name, int regularRate)
+        public Hotel(string name, int weekDayRegularRate, int weekEndRegularRate)
         {
             this.name = name;
-            this.regularRate = regularRate;
+            this.weekDayRegularRate = weekDayRegularRate;
+            this.weekEndRegularRate = weekEndRegularRate;
         }
     }
 }
