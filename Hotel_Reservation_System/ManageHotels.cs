@@ -32,7 +32,7 @@ namespace Hotel_Reservation_System
             }
         }
 
-        //Method to check whether date is valid
+        // Method to check whether date is valid
         public DateTime ValidateDate(string date)
         {
             DateTime minDate = DateTime.Today;
@@ -56,7 +56,7 @@ namespace Hotel_Reservation_System
             }
             catch (Exception e)
             {
-                Console.ForegroundColor = ConsoleColor.Red; 
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(e.Message);
                 Console.ResetColor();
                 Console.Write("Please enter a valid date in ddMonyyyy format: ");
@@ -64,6 +64,7 @@ namespace Hotel_Reservation_System
             }
         }
 
+        // Check if Check out date is greater than Check in date
         public bool IsDateRangeValid(DateTime checkIn, DateTime checkOut)
         {
             if (checkIn > checkOut)
@@ -71,6 +72,7 @@ namespace Hotel_Reservation_System
             return true;
         }
 
+        // If Check out date is less than Check in date throw INVALID_DATE_RANGE exception
         public DateTime HandleInvalidDateRange(DateTime checkIn, DateTime checkOut)
         {
             try
@@ -91,19 +93,42 @@ namespace Hotel_Reservation_System
             return checkOut;
         }
 
+        // Get number of week days in the given date range
+        public int GetWeekdaysInDateRange(DateTime start, DateTime end)
+        {
+            int weekDays = 0;
+            while (start <= end)
+            {
+                if (start.DayOfWeek != DayOfWeek.Saturday && start.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    ++weekDays;
+                }
+                start = start.AddDays(1);
+            }
+            return weekDays;
+        }
+
+        // Method to find Cheapest rate based on Regular week day and week end rates
+        public double CheapestRegularRate(int weekDays, int weekEndDays)
+        {
+            double cheapestRegularRate = hotels.Min(hotel => (weekDays * hotel.weekDayRegularRate) + (weekEndDays * hotel.weekEndRegularRate));
+            return cheapestRegularRate;
+        }
+
         // Method to find Cheapest hotels based on Regular customer rates for given date range
         public List<Hotel> FindCheapestHotelInAGivenDateRange(DateTime start, DateTime end)
         {
-            end=HandleInvalidDateRange(start, end);
+            end = HandleInvalidDateRange(start, end);
             TimeSpan timeSpan = end.Subtract(start);
-            double numberOfDays = timeSpan.TotalDays;
-            double cheapestRegularRate = hotels.Min(hotel => hotel.weekDayRegularRate);
-            var cheapestAvailableHotels = hotels.Where(hotel => hotel.weekDayRegularRate == cheapestRegularRate).ToList();
-            double TotalBill = numberOfDays * cheapestRegularRate;
+            int numberOfDays = (int)timeSpan.TotalDays+1;
+            int weekDays = GetWeekdaysInDateRange(start, end);
+            int weekEndDays = numberOfDays - weekDays;
+            double cheapestRate = CheapestRegularRate(weekDays, weekEndDays);
+            var cheapestAvailableHotels = hotels.Where(hotel => (weekDays * hotel.weekDayRegularRate) + (weekEndDays * hotel.weekEndRegularRate) == cheapestRate).ToList();
             Console.WriteLine("\nCheapest Hotel available for the given date range :");
             foreach (Hotel hotel in cheapestAvailableHotels)
             {
-                Console.WriteLine("Hotel '" + hotel.name + "' and Total Rate  : $ " + TotalBill);
+                Console.WriteLine("Hotel '" + hotel.name + "' and Total Rate  : $ " + cheapestRate);
             }
             return cheapestAvailableHotels;
         }
