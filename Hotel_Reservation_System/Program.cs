@@ -9,25 +9,10 @@ namespace Hotel_Reservation_System
         {
             Console.WriteLine("Welcome to Hotel Reservation System!");
             Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
-            string type = "";
 
-            // Validate Customer Type
-            try
-            {
-                Console.WriteLine("Enter customer type");
-                type = Console.ReadLine().ToUpper();
-                if (type != "REGULAR" && type != "REWARD")
-                    throw new CustomExceptions(CustomExceptions.ExceptionType.INVALID_CUSTOMER_TYPE, "Entered Customer type is invalid!");
-
-            }
-            catch (Exception e)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.Message + " Try again!");
-                Console.ResetColor();
-                System.Environment.Exit(0);
-            }
-
+            Console.WriteLine("Enter customer type");
+            string type = Console.ReadLine().ToUpper();
+            CustomerTypeValidation.ValidateCustomerType(type);
             CustomerType customerType = (type == "REGULAR") ? CustomerType.REGULAR : CustomerType.REWARD;
             ManageHotels hotelManager = new ManageHotels(customerType);
 
