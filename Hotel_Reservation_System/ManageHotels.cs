@@ -14,7 +14,16 @@ namespace Hotel_Reservation_System
     {
         // hotels contains the list of hotels 
         public List<Hotel> hotels = new List<Hotel>();
+        public CustomerType customerType;
         public static double cheapestRate = 0;
+
+        // Parameterised Constructor
+        public ManageHotels(CustomerType customerType)
+        {
+            this.customerType = customerType;
+            hotels = new List<Hotel>();
+        }
+
 
         // Method to add new hotel 
         public void AddHotel(Hotel newHotel)
@@ -113,8 +122,10 @@ namespace Hotel_Reservation_System
         // Method to find Cheapest rate based on Regular week day and week end rates
         public double CheapestRegularRate(int weekDays, int weekEndDays)
         {
-            double cheapestRegularRate = hotels.Min(hotel => (weekDays * hotel.regularWeekDayRate) + (weekEndDays * hotel.regularWeekEndRate));
-            return cheapestRegularRate;
+            if (customerType == CustomerType.REGULAR)
+                return hotels.Min(hotel => (weekDays * hotel.regularWeekDayRate) + (weekEndDays * hotel.regularWeekEndRate));
+            else
+                return hotels.Min(hotel => (weekDays * hotel.rewardWeekDayRate) + (weekEndDays * hotel.rewardWeekEndRate));
         }
 
         // Method to find Cheapest hotels based on Regular customer rates for given date range
@@ -126,8 +137,10 @@ namespace Hotel_Reservation_System
             int weekDays = GetWeekdaysInDateRange(start, end);
             int weekEndDays = numberOfDays - weekDays;
             cheapestRate = CheapestRegularRate(weekDays, weekEndDays);
-            var cheapestAvailableHotels = hotels.Where(hotel => (weekDays * hotel.regularWeekDayRate) + (weekEndDays * hotel.regularWeekEndRate) == cheapestRate).ToList();
-            return cheapestAvailableHotels;
+            if (customerType == CustomerType.REGULAR)
+                return hotels.Where(hotel => (weekDays * hotel.regularWeekDayRate) + (weekEndDays * hotel.regularWeekEndRate) == cheapestRate).ToList();
+            else
+                return hotels.Where(hotel => (weekDays * hotel.rewardWeekDayRate) + (weekEndDays * hotel.rewardWeekEndRate) == cheapestRate).ToList();
         }
 
         // Method to find Cheapest Best rated hotels based on Regular customer rates for given date range
@@ -151,18 +164,20 @@ namespace Hotel_Reservation_System
             Console.WriteLine("\nBest rated Hotels available for the given date range : ");
             foreach (Hotel hotel in bestRatedHotels)
             {
-                double totalBill = (weekDays * hotel.regularWeekDayRate) + (weekEndDays * hotel.regularWeekEndRate);
+                double weekDayRate = (customerType == CustomerType.REGULAR) ? hotel.regularWeekDayRate : hotel.regularWeekEndRate;
+                double weekEndRate = (customerType == CustomerType.REGULAR) ? hotel.rewardWeekDayRate : hotel.rewardWeekEndRate;
+                double totalBill = (weekDays * weekDayRate) + (weekEndDays * weekEndRate);
                 Console.WriteLine("Hotel '" + hotel.name + "' and Total Rate  : $ " + totalBill);
             }
             return bestRatedHotels;
         }
 
         // Method to display available cheapest hotel
-        public void DisplayCheapestHotel(List<Hotel> cheapHotels)
+        public void DisplayHotel(List<Hotel> Hotels)
         {
-            foreach (Hotel hotel in cheapHotels)
+            foreach (Hotel hotel in Hotels)
             {
-                Console.WriteLine("Hotel '" + hotel.name + "' and Total Rate  : $ " + cheapestRate);
+                Console.WriteLine("Hotel '" + hotel.name + "' , Rating : " + hotel.rating + " and Total Rate  : $ " + cheapestRate);
             }
         }
     }
